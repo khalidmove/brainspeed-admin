@@ -1,115 +1,159 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import React, { useMemo, useState, useEffect } from 'react'
+import Table from "@/components/table";
+import isAuth from '@/components/isAuth';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
+import { Api } from '@/services/service';
+import { useRouter } from "next/router";
+import moment from 'moment'
+import { useContext } from 'react';
+import { userContext } from './_app';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+function Dashboard(props) {
+    const router = useRouter();
+    const [user, setUser] = useContext(userContext);
+    const [userData, setUserData] = useState({});
+    const [opt, setOpt] = useState({});
 
-export default function Home() {
-  return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
-    >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              pages/index.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+
+    useEffect(() => {
+        dashboard()
+    }, []);
+
+    const dashboard = () => {
+        props.loader(true);
+        Api("get", "dashboard", "", router).then(
+            async (res) => {
+                props.loader(false);
+                if (res?.status) {
+                    console.log(res);
+                    setUserData(res?.data)
+                    setOpt({
+                        labels: ['Subscriber', 'Unsubscriber'],
+                        datasets: [
+                            {
+                                label: "Users",
+                                data: [res.data.users.subscriber, res.data.users.unsubscriber],
+                                backgroundColor: [
+                                    '#020973',
+                                    '#2A61F0',
+                                ],
+                                borderColor: [
+                                    'black',
+                                    'black',
+                                ],
+                                borderWidth: 1,
+                            },
+                        ],
+                    })
+                } else {
+                    props.toaster({ type: "success", message: res?.message });
+                }
+            },
+            (err) => {
+                props.loader(false);
+                console.log(err);
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
+    };
+
+    return (
+        <div className="bg-white min-h-full py-10 px-5">
+            <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
+                <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
+                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.fullName}</span></p>
+            </div>
+            <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-10 md:pt-10 pt-5'>
+                <div>
+                    <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-5'>
+
+                        <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex  justify-between items-center drop-shadow-xl'>
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[44px] w-[44px]' src='/user.png' />
+                            </div>
+                            <div className='flex flex-col justify-center items-center'>
+                                <p className='text-xl font-normal text-white'>Total Users</p>
+                                <p className='text-base font-normal text-white'>{userData?.users?.allusers} users</p>
+                            </div>
+                        </div>
+
+                        <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex justify-between items-center drop-shadow-xl'>
+                            {/* border-2 border-[var(--custom-blue)] */}
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[44px] w-[44px]' src='/subscribed_img.png' />
+                            </div>
+                            <div className='flex flex-col justify-center items-center'>
+                                <p className='text-xl font-normal text-white'>Subscribed</p>
+                                <p className='text-base font-normal text-white'>{userData?.users?.subscriber} users</p>
+                            </div>
+                        </div>
+
+                        <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex justify-between items-center drop-shadow-xl'>
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[44px] w-[44px]' src='/subscribed_img.png' />
+                            </div>
+                            <div className='flex flex-col justify-center items-center'>
+                                <p className='text-xl font-normal text-white'>Unsubscribed</p>
+                                <p className='text-base font-normal text-white'>{userData?.users?.unsubscriber} users</p>
+                            </div>
+                        </div>
+
+                        <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex justify-between items-center drop-shadow-xl'>
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[44px] w-[44px]' src='/Result_img.png' />
+                            </div>
+                            <div className='flex flex-col justify-end items-end'>
+                                <p className='text-xl font-normal text-white'>Total Quiz</p>
+                                <p className='text-base font-normal text-white'>{userData?.quiz?.allquizs}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-3 grid-cols-1 w-full gap-5 pt-5">
+                        <div className="border border-[var(--custom-blue)] h-[61px] w-full rounded-md p-2 flex justify-between items-center">
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[34px] w-[34px]' src='/createIcon-1.png' />
+                            </div>
+                            <div className='flex flex-col justify-center items-center'>
+                                <p className='text-xs font-normal text-[var(--custom-blue)]'>Today upload</p>
+                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{userData?.quiz?.today} Quiz</p>
+                            </div>
+                        </div>
+                        <div className="border border-[var(--custom-blue)] h-[61px] w-full rounded-md p-2 flex justify-between items-center">
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[34px] w-[34px]' src='/createIcon-1.png' />
+                            </div>
+                            <div className='flex flex-col justify-center items-center'>
+                                <p className='text-xs font-normal text-[var(--custom-blue)]'>Last week</p>
+                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{userData?.quiz?.week} Quiz</p>
+                            </div>
+                        </div>
+                        <div className="border border-[var(--custom-blue)] h-[61px] w-full rounded-md p-2 flex justify-between items-center">
+                            <div className='flex justify-start items-center'>
+                                <img className='h-[34px] w-[34px]' src='/createIcon-1.png' />
+                            </div>
+                            <div className='flex flex-col justify-center items-center'>
+                                <p className='text-xs font-normal text-[var(--custom-blue)]'>Last month</p>
+                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{userData?.quiz?.month} Quiz</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* <div className="pt-5">
+                        <Table columns={columns} data={user} />
+                    </div> */}
+                </div>
+
+                <div className='flex justify-center items-center'>
+                    {/* <img src="/images.png" /> */}
+                    {opt?.labels?.length > 0 && <Doughnut data={opt} className="max-h-80 " />}
+                </div>
+            </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+    )
 }
+
+export default isAuth(Dashboard)
