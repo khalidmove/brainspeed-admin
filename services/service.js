@@ -1,6 +1,6 @@
 import axios from "axios";
 // const ConstantsUrl = "https://api.primaxtrading.com/v1/api/";
-const ConstantsUrl = "http://localhost:3000/api/";
+const ConstantsUrl = process.env.NODE_ENV === 'development' ? "http://localhost:3000/api/" : 'https://api.primaxtrading.com/v1/api/';
 
 function Api(method, url, data, router) {
   return new Promise(function (resolve, reject) {
