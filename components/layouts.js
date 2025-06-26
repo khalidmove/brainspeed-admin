@@ -16,7 +16,7 @@ import Button from "@mui/material/Button";
 import * as rdd from "react-device-detect";
 import { MdDashboard, MdOutlineSubscriptions } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
-import { BiBookContent } from "react-icons/bi";
+import { BiBookContent, BiSolidCategory } from "react-icons/bi";
 import { FaQuestion } from "react-icons/fa6";
 import { GrTest } from "react-icons/gr";
 
@@ -30,7 +30,7 @@ const menuItems = [
   },
   {
     href: "/quizz-list",
-    title: "Quiz Management",
+    title: "Question Management",
     icon: <GrTest />,
     activeIcon: "/home.png",
     access: ["USER", "ORG", "ADMIN"],
@@ -44,18 +44,18 @@ const menuItems = [
   // },
   {
     href: "/test-management",
-    title: "Test Management",
+    title: "Quiz Management",
     icon: <GrTest />,
     activeIcon: "/home.png",
     access: ["USER", "ORG", "ADMIN"],
   },
-  // {
-  //   href: "/create-chapter",
-  //   title: "Create Chapter",
-  //   icon: <GrTest />,
-  //   activeIcon: "/home.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  // },
+  {
+    href: "/categories",
+    title: "Category",
+    icon: <BiSolidCategory />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
   // {
   //   href: "/chapter-list",
   //   title: "Subject Management",

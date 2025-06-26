@@ -119,6 +119,15 @@ function QuizzList(props) {
                 ),
             },
             {
+                Header: "Status",
+                accessor: "status",
+                Cell: ({ value }) => (
+                    <div className="p-4 flex flex-col items-center justify-center">
+                        <p className="text-black text-base font-normal">{value}</p>
+                    </div>
+                ),
+            },
+            {
                 Header: "Question",
                 accessor: "question",
                 Cell: ({ value }) => (

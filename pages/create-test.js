@@ -20,29 +20,27 @@ function CreateTest(props) {
     const router = useRouter();
     const { id } = router.query
     const [quizzData, setQuizzData] = useState([]);
+    const [categoryData, setCategoryData] = useState([]);
     const [testObj, setTestObj] = useState({
         name: '',
         category: '',
         image: '',
         limit: 5
     })
-    const [subject, setSubject] = useState([]);
-    const [quizzId, setQuizzId] = useState([]);
+
     const [submitted, setSubmitted] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [topic, setTopic] = useState(false);
-    const [addSubjectName, setAddSubjectName] = useState('');
-    const [addSubjectIcon, setAddSubjectIcon] = useState('');
-    const [addTopicName, setAddTopicName] = useState('');
-    const [topicData, setTopicData] = useState([])
-    const fileInputField = useRef(null);
     const [user, setUser] = useContext(userContext);
+    const [questionIdList, setQuestionIdList] = useState([]);
 
     useEffect(() => {
         if (id) {
             getQuizzById()
         }
     }, [id])
+
+    useEffect(() => {
+        getcategory()
+    }, [])
 
     const getQuizzById = () => {
         props.loader(true);
@@ -71,16 +69,26 @@ function CreateTest(props) {
         );
     }
 
-    const handleClose = () => {
-        setOpen(false);
-    };
 
-    const handleCloseTopic = () => {
-        setTopic(false);
-    };
-
-
-
+    const getcategory = () => {
+        props.loader(true);
+        Api("get", `category?status=Active`, '', router).then(
+            async (res) => {
+                props.loader(false);
+                if (res?.status) {
+                    console.log(res);
+                    setCategoryData(res.data)
+                } else {
+                    props.toaster({ type: "success", message: res?.message });
+                }
+            },
+            (err) => {
+                props.loader(false);
+                console.log(err);
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
+    }
 
     const hanledForm = (e) => {
         e.preventDefault();
@@ -90,8 +98,6 @@ function CreateTest(props) {
             createTesat()
         }
     }
-
-
 
     const getQuizzData = () => {
         if (!testObj.limit || !testObj.category) {
@@ -104,7 +110,14 @@ function CreateTest(props) {
                 props.loader(false);
                 if (res?.status) {
                     console.log(res);
+                    let questionIdArray = []
+                    res.data.map(item => {
+                        questionIdArray = questionIdArray.concat(item.que.map(q => q._id))
+                    })
+                    console.log(questionIdArray)
+                    setQuestionIdList(questionIdArray)
                     setQuizzData(res.data);
+
                 } else {
                     props.toaster({ type: "success", message: res?.message });
                 }
@@ -120,7 +133,8 @@ function CreateTest(props) {
     const createTesat = () => {
         const data = {
             ...testObj,
-            questions: quizzData
+            questions: quizzData,
+            questionIdList
         }
         props.loader(true);
         Api("post", `quizz/create`, data, router).then(
@@ -245,20 +259,19 @@ function CreateTest(props) {
                 <div className='grid md:grid-cols-3 grid-cols-1 w-full md:gap-5 p-2 border-2 rounded-md mt-10'>
                     <div>
                         <p className='text-[var(--dark-orange)] font-medium text-lg pb-3'>Category</p>
-                        <input
-                            className="outline-none p-2 w-full  border border-[var(--custom-blue)] rounded-[7px] bg-white"
-                            type='text'
-                            placeholder="Category Name"
-                            min={0}
+                        <select
                             value={testObj.category}
-                            required
                             onChange={(text) => {
                                 setTestObj({
                                     ...testObj,
                                     category: text.target.value,
                                 });
                             }}
-                        />
+                            className="outline-none p-2 w-full  border border-[var(--custom-blue)] rounded-[7px] bg-white"
+                        >
+                            <option value=''>Select category</option>
+                            {categoryData.map((item, i) => (<option key={i} value={item.name}>{item.name}</option>))}
+                        </select>
                         {submitted && testObj.category === "" && (
                             <p className="text-red-700 mt-1">Category is required</p>
                         )}
