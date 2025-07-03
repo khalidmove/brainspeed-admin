@@ -312,13 +312,14 @@ function CreateTest(props) {
 
 
             {quizzData.map((item, i) => (<div key={i} className='pt-5'>
+                <p className="text-black mt-1 font-bold">{item?.level}</p>
                 <table className='w-full border-collapse mb-1' >
                     <thead>
                         <tr>
                             <th className='border border-[#ccc] p-2 bg-[#f0f0f0]'  >#</th>
                             <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Ouestion Name</th>
                             <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Category</th>
-                            <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Level</th>
+                            {/* <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Level</th> */}
                             <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Question</th>
                             <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Options</th>
                             <th className='border border-[#ccc] p-2 bg-[#f0f0f0]' >Answer</th>
@@ -330,12 +331,13 @@ function CreateTest(props) {
                             <td className='border border-[#ccc] p-2' >{qu?.question_number}</td>
                             <td className='border border-[#ccc] p-2'>{qu?.name}</td>
                             <td className='border border-[#ccc] p-2'>{qu?.category}</td>
-                            <td className='border border-[#ccc] p-2'>{qu?.type}</td>
+                            {/* <td className='border border-[#ccc] p-2'>{qu?.type}</td> */}
                             <td className='border border-[#ccc] p-2'>{qu?.question}</td>
-                            <td className='border border-[#ccc] p-2'>{qu?.question_number}</td>
+
                             <td className='border border-[#ccc] p-2'>{qu.option.map((items, ins) => (<p key={ins} className="text-black text-xs font-normal">
                                 {items.name}:{items.ans}
                             </p>))}</td>
+                            <td className='border border-[#ccc] p-2'>{qu?.answer}</td>
                             <td className='border border-[#ccc] p-2'><img src={qu.image} className='h-10 w-10' /></td>
                         </tr>))}
 
