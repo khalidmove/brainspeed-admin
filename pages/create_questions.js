@@ -2,12 +2,15 @@ import React, { useState, useEffect, useMemo, useContext } from "react";
 import * as XLSX from "xlsx";
 import Table from "@/components/table";
 import { userContext } from "./_app";
-import { Api } from "@/services/service";
+import { Api, ApiFormData } from "@/services/service";
 import { useRouter } from "next/router";
 // import currencySign from "@/utils/currencySign";
+import copy from "copy-to-clipboard";
 
 function UploadProductFromFile(props) {
     const [file, setFile] = useState(null);
+    const [jenretteFile, setJenretteFile] = useState(null);
+    const [jenretteFileData, setJenretteFileData] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [pagination, setPagination] = useState({
         totalPages: 1,
@@ -26,6 +29,14 @@ function UploadProductFromFile(props) {
             setFile(selectedFile);
         }
     };
+
+    // const handleJenretteFileUpload = (event) => {
+    //     const selectedJenretteFile = event.target.files[0];
+    //     if (selectedJenretteFile) {
+    //         setJenretteFile(selectedJenretteFile);
+    //     }
+    // }
+
     useEffect(() => {
         // getProduct();
     }, []);
@@ -115,6 +126,38 @@ function UploadProductFromFile(props) {
         }
     };
 
+    const handleJenretteFileUploaded = (event, i) => {
+        // const file = event.target.files[0];
+        const selectedJenretteFile = event.target.files[0];
+        if (selectedJenretteFile) {
+            setJenretteFile(selectedJenretteFile);
+        }
+        const data = new FormData()
+        data.append('file', jenretteFile)
+        props.loader(true);
+        ApiFormData("post", "auth/fileupload", data, router).then(
+            (res) => {
+                props.loader(false);
+                console.log("res================>", res);
+                if (res.status) {
+                    setJenretteFileData(res?.data?.file);
+                    props.toaster({ type: "success", message: res.data.message });
+                }
+            },
+            (err) => {
+                props.loader(false);
+                console.log(err);
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
+        const reader = new FileReader();
+    };
+
+    const handleCopy = () => {
+        console.log('sbdbdsds')
+        copy(jenretteFileData);
+        // alert("Text copied to clipboard!");
+    };
 
     const uploadData = async () => {
         props.loader(true);
@@ -237,6 +280,32 @@ function UploadProductFromFile(props) {
 
     return (
         <div className="w-full h-full bg-transparent md:pt-5 pt-5 pb-5 pl-5 pr-5 overflow-auto">
+            <div className="w-full border border-black p-2 rounded mb-4 md:mt-0 mt-6">
+                <form className="w-full relative mb-4">
+                    <div className="relative w-full">
+                        <p className="text-black text-base font-bold pb-1">Genrete Image Url</p>
+                        <div className="border rounded-md p-2 w-full bg-custom-light flex justify-start items-center text-custom-blue font-normal">
+                            <label htmlFor="file-upload" className="cursor-pointer">
+                                Genrete File:
+                            </label>
+                            <input
+                                id="file-upload"
+                                type="file"
+                                // accept=".xlsx, .xls"
+                                // onChange={handleJenretteFileUpload}
+                                onChange={handleJenretteFileUploaded}
+                                className="ml-2"
+                            />
+                        </div>
+                        <div className="flex justify-between items-center w-full gap-5 mt-4">
+                            <p className="text-black text-base font-normal" >{jenretteFileData}</p>
+                            <button type="button" className="text-white bg-[var(--custom-blue)] rounded-md py-2 px-4" onClick={handleCopy}>Copy</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
             <form className="w-full  relative">
                 <div className="relative w-full">
                     <div className="border rounded-md p-2 w-full bg-custom-light flex justify-start items-center text-custom-blue font-normal">
@@ -267,6 +336,7 @@ function UploadProductFromFile(props) {
                     Upload Data
                 </button>
             </form>
+
             <div className="mb-20">
                 <Table
                     columns={columns}

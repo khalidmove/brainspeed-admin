@@ -23,7 +23,7 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
 
     const getFAQ = () => {
         props.loader(true);
-        Api("get", "subscription", '', router).then(
+        Api("get", "subscription/getSubscription", '', router).then(
             (res) => {
                 console.log("res================>", res.data.incident);
                 props.loader(false);
@@ -58,7 +58,7 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
         }).then(function (result) {
             if (result.isConfirmed) {
                 props.loader(true);
-                Api("delete", `deletsubscription/${item?._id}`, '', router).then(
+                Api("delete", `subscription/deleteSubscription/${item?._id}`, '', router).then(
                     (res) => {
                         console.log("res================>", res.data.incident);
                         props.loader(false);
@@ -88,10 +88,11 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
         //     props.toaster({ type: "error", message: "Missing credentials" });
         //     return
         // }
+        let mathod = singleFaq?._id ? 'put' : "post"
         props.loader(true)
-        let url = singleFaq?._id ? `updatesubscription/${singleFaq?._id}` : 'subscription'
+        let url = singleFaq?._id ? `subscription/updateSubscription/${singleFaq?._id}` : 'subscription/createSubscription'
 
-        Api("post", url, newFAQ, router).then(
+        Api(mathod, url, newFAQ, router).then(
             (res) => {
                 console.log("res================>", res.data.incident);
                 props.loader(false);

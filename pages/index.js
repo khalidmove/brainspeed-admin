@@ -64,7 +64,7 @@ function Dashboard(props) {
         <div className="bg-white min-h-full py-10 px-5">
             <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
                 <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.fullName}</span></p>
+                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
             </div>
             <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-10 md:pt-10 pt-5'>
                 <div>

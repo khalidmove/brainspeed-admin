@@ -16,7 +16,7 @@ function SubscriptionManagement(props) {
 
     const submit = (is_on) => {
         props.loader(true)
-        let url = `updatesubscription`
+        let url = `updateSubscription`
 
         Api("post", url, { is_on }, router).then(
             (res) => {
@@ -47,9 +47,9 @@ function SubscriptionManagement(props) {
                 <div className='md:flex justify-between'>
                     <div>
                         <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                        <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.fullName}</span></p>
+                        <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
                     </div>
-                    <div className='md:mt-0 mt-5'>
+                    {/* <div className='md:mt-0 mt-5'>
                         <FormGroup>
                             <FormControlLabel control={<Switch checked={activeSubscriptionPlan}
                                 onChange={(e) => {
@@ -58,7 +58,7 @@ function SubscriptionManagement(props) {
                                 }}
                             />} label="Active Subscription Plan" />
                         </FormGroup>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

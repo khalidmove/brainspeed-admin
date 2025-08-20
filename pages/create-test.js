@@ -202,7 +202,7 @@ function CreateTest(props) {
         <div className="bg-white min-h-full py-10 px-5">
             <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
                 <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.fullName}</span></p>
+                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
             </div>
 
             <form className='border-2 border-[var(--dark-blue)] rounded-[15px] w-full mt-5 p-5 bg-[var(--dark-lightBlue)]' onSubmit={hanledForm}>

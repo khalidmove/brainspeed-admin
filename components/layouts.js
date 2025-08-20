@@ -19,6 +19,10 @@ import { FaUser } from "react-icons/fa6";
 import { BiBookContent, BiSolidCategory } from "react-icons/bi";
 import { FaQuestion } from "react-icons/fa6";
 import { GrTest } from "react-icons/gr";
+import { AiOutlineBell } from 'react-icons/ai'
+import { MdOutlineContentPaste } from "react-icons/md";
+import { IoSettings } from "react-icons/io5";
+import { IoMdTime } from "react-icons/io";
 
 const menuItems = [
   {
@@ -84,20 +88,41 @@ const menuItems = [
   //   activeIcon: "/home.png",
   //   access: ["USER", "ORG", "ADMIN"],
   // },
-  // {
-  //   href: "/subscription-management",
-  //   title: "Subscription",
-  //   icon: <MdOutlineSubscriptions />,
-  //   activeIcon: "/home.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  // },
-  // {
-  //   href: "/content-management",
-  //   title: "Content Management",
-  //   icon: <BiBookContent />,
-  //   activeIcon: "/home.png",
-  //   access: ["USER", "ORG", "ADMIN"],
-  // },
+  {
+    href: "/subscription-management",
+    title: "Subscription",
+    icon: <MdOutlineSubscriptions />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
+  {
+    href: "/notifications",
+    title: "Notifications",
+    icon: <AiOutlineBell />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
+  {
+    href: "/time-slot",
+    title: "Time Slot",
+    icon: <IoMdTime />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
+  {
+    href: "/settings",
+    title: "Settings",
+    icon: <IoSettings />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
+  {
+    href: "/content-management",
+    title: "Content Management",
+    icon: <MdOutlineContentPaste />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
 ];
 
 const Layout = ({ children, loader, toaster }) => {
@@ -186,7 +211,7 @@ const Layout = ({ children, loader, toaster }) => {
 
   return (
     <div className="md:min-h-screen flex sm:flex-1 flex-col">
-      {router.route !== "/login" && router.route !== "/signup" && (
+      {router.route !== "/login" && router.route !== "/signup" && router.route !== "/privacy-policy" && router.route !== "/terms-conditions" && router.route !== "/about-us" && router.route !== "/contact-us" && (
         <header
           className={`bg-[var(--custom-blue)] fixed top-0 w-full h-16 flex  font-semibold uppercase shadow-lg z-30 ${toggleDrawer && user?.id !== "6450e9bef4d2cc08c2ec0431"
             ? "ml-60"
@@ -269,6 +294,10 @@ const Layout = ({ children, loader, toaster }) => {
       )}
       {router.route !== "/login" &&
         router.route !== "/signup" &&
+        router.route !== "/privacy-policy" &&
+        router.route !== "/terms-conditions" &&
+        router.route !== "/about-us" &&
+        router.route !== "/contact-us" &&
         toggleDrawer &&
         user?.id !== "6450e9bef4d2cc08c2ec0431" && (
           /*bg-stone-800*/
@@ -370,6 +399,10 @@ const Layout = ({ children, loader, toaster }) => {
           className={
             router.route !== "/login" &&
               router.route !== "/signup" &&
+              router.route !== "/privacy-policy" &&
+              router.route !== "/terms-conditions" &&
+              router.route !== "/about-us" &&
+              router.route !== "/contact-us" &&
               toggleDrawer &&
               user?.id !== "6450e9bef4d2cc08c2ec0431"
               ? " md:pl-60 md:w-full  md:pt-16"

@@ -62,7 +62,7 @@ export default function Home(props) {
   };
 
   return (
-    <div className="flex min-h-screen bg-white justify-center items-center ">
+    <div className="flex min-h-screen bg-white justify-center items-center">
       <div className="border-2 rounded-3xl border-[var(--dark-orange)] md:p-10 p-5 sm:w-1.5 md:w-1/3  ">
         <p className="text-black text-center md:text-4xl text-2xl font-semibold mb-10">
           Welcome
@@ -136,6 +136,24 @@ export default function Home(props) {
             </div>
           </div>
         </div>
+
+        {/* <div className="flex justify-between items-center mt-5">
+          <p className="text-black text-base font-semibold cursor-pointer" onClick={() => router.push("/privacy-policy")}>Privacy policy</p>
+          <p className="text-black text-base font-semibold cursor-pointer" onClick={() => router.push("/terms-conditions")}>Terms and conditions</p>
+        </div>
+
+        <div className="flex justify-between items-center mt-5">
+          <p className="text-black text-base font-semibold cursor-pointer" onClick={() => router.push("/about-us")}>About us</p>
+          <p className="text-black text-base font-semibold cursor-pointer" onClick={() => router.push("/contact-us")}>Contact us</p>
+        </div> */}
+
+        <div className="grid grid-cols-2 w-full gap-2 mt-5">
+          <p className="text-black md:text-base text-sm font-semibold cursor-pointer" onClick={() => router.push("/privacy-policy")}>Privacy policy</p>
+          <p className="text-black md:text-base text-sm font-semibold cursor-pointer" onClick={() => router.push("/terms-conditions")}>Terms and conditions</p>
+          <p className="text-black md:text-base text-sm font-semibold cursor-pointer" onClick={() => router.push("/about-us")}>About us</p>
+          <p className="text-black md:text-base text-sm font-semibold cursor-pointer" onClick={() => router.push("/contact-us")}>Contact us</p>
+        </div>
+
       </div>
     </div>
   );

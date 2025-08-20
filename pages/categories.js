@@ -28,7 +28,7 @@ function Categories(props) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredCategories = loadTypeData.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    item.name?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleInput = (e) => {
