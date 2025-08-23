@@ -330,7 +330,8 @@ const Layout = ({ children, loader, toaster }) => {
                   <div key={item.title}>
                     {/* {item?.access?.includes(user?.usertype) && ( */}
                     <li
-                      className={`${router.route === item.href ? 'bg-[var(--dark-orange)]' : 'bg-[var(--custom-blue)]'} py-2  flex  px-5 border-b-2 border-white align-middle`}
+                      // className={`${router.route === item.href ? 'bg-[var(--dark-orange)]' : 'bg-[var(--custom-blue)]'} py-2  flex  px-5 border-b-2 border-white align-middle`}
+                      className={`${router.route === item.href ? 'bg-white' : 'bg-[var(--custom-blue)]'} py-2  flex  px-5 border-b-2 border-white align-middle`}
                       onClick={() => {
                         router.push(item.href);
                         if (mobile) {
@@ -339,7 +340,8 @@ const Layout = ({ children, loader, toaster }) => {
                       }}
                     >
                       {/* className="justify-center align-middle" */}
-                      <div className={`flex justify-center align-middle text-white cursor-pointer text-base	`}>
+                      <div className={`flex justify-center align-middle cursor-pointer text-base	${router.route === item.href ? 'text-[var(--custom-blue)]' : 'text-white'}`}>
+                        {/* className={`flex justify-center align-middle cursor-pointer text-base	text-white`} */}
                         {/* hover:text-[var(--dark-orange)] 
                           ${router.asPath === item.href
                         ? "text-white"
@@ -362,8 +364,10 @@ const Layout = ({ children, loader, toaster }) => {
                         </div> */}
                       <Link href={item.href}>
                         <p
-                          className={`flex ml-2 font-normal cursor-pointer text-white  text-sm font-nunito `}
+                          className={`flex ml-2 font-normal cursor-pointer text-sm font-nunito ${router.route === item.href ? 'text-[var(--custom-blue)]' : 'text-white'}`}
                         >
+                          {/* className={`flex ml-2 font-normal cursor-pointer text-sm font-nunito text-white`} */}
+
                           {/* hover:text-[var(--dark-orange)] 
                           ${router.asPath === item.href
                             ? "text-white"
