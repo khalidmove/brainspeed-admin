@@ -113,11 +113,11 @@ function Settings(props) {
     return (
         <>
             <div className="bg-white min-h-full md:pt-10 pt-11 md:pb-10 pb-5 px-5">
-                <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
+                <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
                     <div className='md:flex justify-between'>
                         <div>
                             <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
+                            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
                         </div>
                     </div>
                 </div>
@@ -127,8 +127,8 @@ function Settings(props) {
 
                         <div className="">
                             <div className="flex items-center space-x-3 mb-6">
-                                <div className="p-2 bg-[#00000010] rounded-lg">
-                                    <FiImage className="h-5 w-5 text-black" />
+                                <div className="p-2 bg-[var(--custom-blue)] rounded-lg">
+                                    <FiImage className="h-5 w-5 text-white" />
                                 </div>
                                 <h2 className="text-gray-800 text-xl font-bold">Carousel Images</h2>
                             </div>
@@ -147,7 +147,7 @@ function Settings(props) {
                                     <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
                                         <button
                                             type="button"
-                                            className="p-2 bg-black rounded-lg transition-colors duration-200"
+                                            className="p-2 bg-[var(--custom-blue)] rounded-lg transition-colors duration-200"
                                             onClick={() => {
                                                 f.current.click();
                                             }}
@@ -174,7 +174,7 @@ function Settings(props) {
                             <div className="flex justify-end mt-4">
                                 <button
                                     type="button"
-                                    className="flex items-center space-x-2 px-6 py-2 bg-black text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg transform hover:scale-105"
+                                    className="flex items-center space-x-2 px-6 py-2 bg-[var(--custom-blue)] text-white font-semibold rounded-xl transition-all duration-200 hover:shadow-lg transform hover:scale-105"
                                     onClick={() => {
                                         if (singleImg === "") {
                                             props.toaster({ type: "error", message: "Carousel Images is required" });
@@ -224,7 +224,7 @@ function Settings(props) {
                             {/* border-t border-gray-200 */}
                             <button
                                 type="submit"
-                                className="px-8 py-2 bg-black text-white font-bold rounded-xl transition-all duration-200 hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                                className="px-8 py-2 bg-[var(--custom-blue)] text-white font-bold rounded-xl transition-all duration-200 hover:shadow-lg transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-200"
                             >
                                 Submit
                             </button>

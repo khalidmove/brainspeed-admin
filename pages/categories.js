@@ -238,7 +238,7 @@ function Categories(props) {
       <section className="h-full w-full overflow-scroll no-scrollbar md:mt-0 mt-5 md:pb-32 pb-28">
         {/* md:mt-9 */}
         <form
-          className="bg-white border md:my-10 border-custom-lightsGrayColor rounded-[10px] p-5 "
+          className="bg-white border md:my-10 border-[var(--custom-blue)] rounded-[10px] p-5 "
           onSubmit={submit}
         >
           {/* my-10 */}
@@ -334,7 +334,7 @@ function Categories(props) {
 
         {/* Form code end here */}
 
-        <div className="bg-white border border-custom-lightsGrayColor rounded-[10px] p-5 ">
+        <div className="bg-white border border-[var(--custom-blue)] rounded-[10px] p-5 ">
           <input
             className="bg-custom-lightGrayInputBg text-custom-black border border-custom-lightGrayColor outline-none h-[40px] md:w-[435px] w-full px-5 rounded-[10px] text-custom-darkBlack font-semibold	text-base"
             type="text"
@@ -347,7 +347,7 @@ function Categories(props) {
         {filteredCategories.map((item, i) => (
           <div
             key={i}
-            className="bg-white border border-custom-lightsGrayColor rounded-[10px] p-5 mt-5"
+            className="bg-white border border-[var(--custom-blue)] rounded-[10px] p-5 mt-5"
           >
             <div className="grid grid-cols-2 justify-between items-center w-full">
               <div className=" flex justify-start items-center">
@@ -374,7 +374,7 @@ function Categories(props) {
               </p> */}
               <div className=" flex justify-end items-end">
                 <FiEdit
-                  className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-custom-darkGray mr-[20px] cursor-pointer`}
+                  className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-[var(--custom-blue)] mr-[20px] cursor-pointer`}
                   onClick={() => {
                     console.log(item)
                     seteditid(item._id);
@@ -386,7 +386,7 @@ function Categories(props) {
                   }}
                 />
                 <IoCloseCircleOutline
-                  className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-custom-darkGray cursor-pointer`}
+                  className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-[var(--custom-blue)] cursor-pointer`}
                   onClick={() => {
                     deleteCategory(item?._id);
                   }}

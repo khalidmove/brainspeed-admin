@@ -165,16 +165,16 @@ const Notifications = (props) => {
     return (
         <>
             <div className="bg-white min-h-full md:pt-10 pt-11 md:pb-10 pb-5 px-5">
-                <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
+                <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
                     <div className='md:flex justify-between'>
                         <div>
                             <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
+                            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
                         </div>
                     </div>
                 </div>
 
-                <div className='w-[99%] mx-auto md:w-full bg-white h-full border-2 border-black rounded-[15px] p-3 md:p-6 flex flex-col overflow-auto space-y-4 mt-5'>
+                <div className='w-[99%] mx-auto md:w-full bg-white h-full border-2 border-[var(--custom-blue)] rounded-[15px] p-3 md:p-6 flex flex-col overflow-auto space-y-4 mt-5'>
                     <h2 className='upercase text-2xl md:text-3xl font-semiboldtext-center md:text-left'>Notification:</h2>
                     <div className='p-3 md:p-4 bg-[#00000010] text-sm  md:text-lg rounded-3xl font-semibold'>
                         <textarea type="text" className='w-full bg-transparent outline-none' rows={5} value={notification}
@@ -182,10 +182,10 @@ const Notifications = (props) => {
                             onChange={(e) => setNotification(e.target.value)} />
                     </div>
                     <div className='flex items-center  gap-10 justify-center md:justify-start'>
-                        <button className='md:px-10 md:py-3 px-3 py-1 text-white font-semibold text-md md:text-2xl bg-black rounded-lg'
+                        <button className='md:px-10 md:py-3 px-3 py-1 text-white font-semibold text-md md:text-2xl bg-[var(--custom-blue)] rounded-lg'
                             onClick={sendNotification}
                         >Send Notification</button>
-                        <button className=' px-3 py-1 text-white  text-md bg-black rounded-lg' onClick={() => setAllSelected(!allSelected)}>{allSelected ? "Unselect all" : "Select All"}</button>
+                        <button className=' px-3 py-1 text-white  text-md bg-[var(--custom-blue)] rounded-lg' onClick={() => setAllSelected(!allSelected)}>{allSelected ? "Unselect all" : "Select All"}</button>
                     </div>
                     <div className='h-full w-full'>
                         <Table columns={columns} data={SortedBookings} />

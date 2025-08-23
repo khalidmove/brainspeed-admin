@@ -63,7 +63,7 @@ export default function Home(props) {
 
   return (
     <div className="flex min-h-screen bg-white justify-center items-center">
-      <div className="border-2 rounded-3xl border-[var(--dark-orange)] md:p-10 p-5 sm:w-1.5 md:w-1/3  ">
+      <div className="border-2 rounded-3xl border-[var(--custom-blue)] md:p-10 p-5 sm:w-1.5 md:w-1/3  ">
         <p className="text-black text-center md:text-4xl text-2xl font-semibold mb-10">
           Welcome
         </p>
@@ -131,7 +131,7 @@ export default function Home(props) {
             </p>
           </div>
           <div className="flex justify-end" onClick={submit}>
-            <div className="md:w-10 md:h-10 w-8 h-8 relative bg-[var(--dark-orange)] rounded-full flex justify-center items-center">
+            <div className="md:w-10 md:h-10 w-8 h-8 relative bg-[var(--custom-blue)] rounded-full flex justify-center items-center">
               <MdArrowForward className="text-white w-5 h-5" />
             </div>
           </div>

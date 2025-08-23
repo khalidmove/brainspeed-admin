@@ -81,11 +81,11 @@ function ContentManagement(props) {
 
   return (
     <div className="bg-white min-h-full md:pt-10 pt-11 md:pb-10 pb-5 px-5">
-      <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
+      <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
         <div className='md:flex justify-between'>
           <div>
             <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
+            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@ function ContentManagement(props) {
 
         <div className='w-full'>
           <div className='w-full'>
-            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 mt-5 border-black">
+            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 mt-5 border-[var(--custom-blue)]">
               <div className='md:mb-0 mb-0'>
                 <p className="text-black font-bold md:text-3xl text-lg">
                   Terms and Condition
@@ -104,9 +104,9 @@ function ContentManagement(props) {
             </div>
 
             <section className='pb-4 relative'>
-              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-black rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
+              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-[var(--custom-blue)] rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
 
-                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-black text-black'>
+                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-[var(--custom-blue)] text-black'>
                   <JoditEditor
                     className="editor max-h-screen overflow-auto"
                     rows={8}
@@ -120,14 +120,14 @@ function ContentManagement(props) {
                   />
                 </div>
                 <div className="flex gap-10 items-center justify-center md:justify-start">
-                  <button className="text-lg text-white font-semibold  bg-black rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
+                  <button className="text-lg text-white font-semibold  bg-[var(--custom-blue)] rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
                 </div>
               </div>
             </section>
           </div>
 
           <div className='w-full'>
-            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 border-black">
+            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 border-[var(--custom-blue)]">
               <div className='md:mb-0 mb-0'>
                 <p className="text-black font-bold md:text-3xl text-lg">
                   Privacy Policy
@@ -136,8 +136,8 @@ function ContentManagement(props) {
             </div>
 
             <section className='pb-4 relative'>
-              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-black rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
-                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-black text-black'>
+              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-[var(--custom-blue)] rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
+                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-[var(--custom-blue)] text-black'>
                   <JoditEditor
                     className="editor max-h-screen overflow-auto"
                     rows={8}
@@ -151,14 +151,14 @@ function ContentManagement(props) {
                   />
                 </div>
                 <div className="flex gap-10 items-center justify-center md:justify-start">
-                  <button className="text-lg text-white font-semibold  bg-black rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
+                  <button className="text-lg text-white font-semibold  bg-[var(--custom-blue)] rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
                 </div>
               </div>
             </section>
           </div>
 
           <div className='w-full'>
-            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 border-black">
+            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 border-[var(--custom-blue)]">
               <div className='md:mb-0 mb-0'>
                 <p className="text-black font-bold md:text-3xl text-lg">
                   About us
@@ -167,8 +167,8 @@ function ContentManagement(props) {
             </div>
 
             <section className='pb-4 relative'>
-              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-black rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
-                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-black text-black'>
+              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-[var(--custom-blue)] rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
+                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-[var(--custom-blue)] text-black'>
                   <JoditEditor
                     className="editor max-h-screen overflow-auto"
                     rows={8}
@@ -182,14 +182,14 @@ function ContentManagement(props) {
                   />
                 </div>
                 <div className="flex gap-10 items-center justify-center md:justify-start">
-                  <button className="text-lg text-white font-semibold  bg-black rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
+                  <button className="text-lg text-white font-semibold  bg-[var(--custom-blue)] rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
                 </div>
               </div>
             </section>
           </div>
 
           <div className='w-full'>
-            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 border-black">
+            <div className="md:grid grid-cols-2 bg-[#00000020] md:px-5 p-4 rounded-xl border-t-8 border-[var(--custom-blue)]">
               <div className='md:mb-0 mb-0'>
                 <p className="text-black font-bold md:text-3xl text-lg">
                   Contact us
@@ -198,8 +198,8 @@ function ContentManagement(props) {
             </div>
 
             <section className='relative'>
-              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-black rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
-                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-black text-black'>
+              <div className='w-[99%] mx-auto md:w-full bg-white h-full border-[3px] border-[var(--custom-blue)] rounded-lg p-3 md:p-8 flex flex-col overflow-auto space-y-4'>
+                <div className='w-full  text-sm md:text-md rounded-2xl  space-y-4 border-t-[10px] border-[var(--custom-blue)] text-black'>
                   <JoditEditor
                     className="editor max-h-screen overflow-auto"
                     rows={8}
@@ -213,7 +213,7 @@ function ContentManagement(props) {
                   />
                 </div>
                 <div className="flex gap-10 items-center justify-center md:justify-start">
-                  <button className="text-lg text-white font-semibold  bg-black rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
+                  <button className="text-lg text-white font-semibold  bg-[var(--custom-blue)] rounded-lg md:py-2 py-1 px-2 md:px-8" onClick={termsSubmit}>Update</button>
                 </div>
               </div>
             </section>

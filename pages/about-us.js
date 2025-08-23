@@ -35,6 +35,11 @@ function AboutUs(props) {
 
     return (
         <section className='z-50 w-screen h-full'>
+            <div className='bg-[var(--custom-blue)] w-full md:h-20 h-14'>
+                <div className='max-w-6xl mx-auto h-full flex justify-start items-center md:px-0 px-5'>
+                    <p className='md:text-3xl text-2xl font-semibold text-white text-start'>About Us</p>
+                </div>
+            </div>
             <div className='h-full max-w-6xl mx-auto py-5 md:py-5 md:px-0 px-5'>
                 <p className='text-3xl font-semibold text-black text-start' dangerouslySetInnerHTML={{ __html: aboutUsContent }}></p>
             </div>

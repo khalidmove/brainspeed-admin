@@ -162,7 +162,7 @@ const Layout = ({ children, loader, toaster }) => {
       setUserDetail(JSON.parse(user));
       setUser(JSON.parse(user));
     } else {
-      if (router.route !== "/" && router.route !== "/signup") {
+      if (router.route !== "/" && router.route !== "/signup" && router.route !== "/privacy-policy" && router.route !== "/terms-conditions" && router.route !== "/about-us" && router.route !== "/contact-us") {
         router.push("/");
       }
     }
@@ -394,7 +394,10 @@ const Layout = ({ children, loader, toaster }) => {
             </nav>
           </aside>
         )}
-      <div className="flex flex-col md:flex-row z-0 h-full  md:mt-0 mt-10">
+      <div className={router.route !== "/privacy-policy" &&
+        router.route !== "/terms-conditions" &&
+        router.route !== "/about-us" &&
+        router.route !== "/contact-us" ? "flex flex-col md:flex-row z-0 h-full  md:mt-0 mt-10" : "mt-0"}>
         <main
           className={
             router.route !== "/login" &&

@@ -113,18 +113,18 @@ function TimeSlot(props) {
 
     return (
         <div className="bg-white min-h-full md:pt-10 pt-11 md:pb-10 pb-5 px-5">
-            <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
+            <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
                 <div className='md:flex justify-between'>
                     <div>
                         <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                        <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
+                        <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
                     </div>
                 </div>
             </div>
 
             <section className="h-full w-full  md:mt-0 mt-5 md:pb-32 pb-28">
                 {/* overflow-scroll no-scrollbar */}
-                <form className="bg-white border md:my-10 border-custom-lightsGrayColor rounded-[10px] p-5" onSubmit={submit}>
+                <form className="bg-white border md:my-10 border-[var(--custom-blue)] rounded-[10px] p-5" onSubmit={submit}>
 
                     <div className="md:flex flex-col justify-center items-center pt-10">
                         <div className="flex flex-col justify-start items-start md:w-auto w-full">
@@ -161,7 +161,7 @@ function TimeSlot(props) {
                 </div> */}
 
                 {loadTypeData.map((item, i) => (
-                    <div key={i} className="bg-white border border-custom-lightsGrayColor rounded-[10px] p-5 mt-5">
+                    <div key={i} className="bg-white border border-[var(--custom-blue)] rounded-[10px] p-5 mt-5">
                         <div className="grid grid-cols-2 justify-between items-center w-full">
                             <div className="flex justify-start items-center">
                                 <input className="md:h-[30px] h-[15px] md:w-[30px] w-[15px]"
@@ -181,7 +181,7 @@ function TimeSlot(props) {
                             </div>
 
                             <div className="flex justify-end items-end">
-                                <FiEdit className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-custom-darkGray mr-[20px] cursor-pointer`}
+                                <FiEdit className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-[var(--custom-blue)] mr-[20px] cursor-pointer`}
                                     onClick={() => {
                                         console.log(item)
                                         seteditid(item._id);
@@ -190,7 +190,7 @@ function TimeSlot(props) {
                                         });
                                     }} />
                                 <IoCloseCircleOutline
-                                    className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-custom-darkGray cursor-pointer`}
+                                    className={`md:h-[30px] h-[20px] md:w-[30px] w-[20px] text-[var(--custom-blue)] cursor-pointer`}
                                     onClick={() => {
                                         deleteTimeSlot(item?._id);
                                     }} />

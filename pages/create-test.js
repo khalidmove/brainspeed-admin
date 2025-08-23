@@ -200,12 +200,12 @@ function CreateTest(props) {
 
     return (
         <div className="bg-white min-h-full py-10 px-5">
-            <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
+            <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
                 <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
+                <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
             </div>
 
-            <form className='border-2 border-[var(--dark-blue)] rounded-[15px] w-full mt-5 p-5 bg-[var(--dark-lightBlue)]' onSubmit={hanledForm}>
+            <form className='border-2 border-[var(--custom-blue)] rounded-[15px] w-full mt-5 p-5 bg-[var(--dark-lightBlue)]' onSubmit={hanledForm}>
 
                 <div className='grid md:grid-cols-2 grid-cols-1 w-full md:gap-5'>
 
@@ -256,7 +256,7 @@ function CreateTest(props) {
                 </div>
 
 
-                <div className='grid md:grid-cols-3 grid-cols-1 w-full md:gap-5 p-2 border-2 rounded-md mt-10'>
+                <div className='grid md:grid-cols-3 grid-cols-1 w-full md:gap-5 p-2 border-2 border-[var(--custom-blue)] rounded-md mt-10'>
                     <div>
                         <p className='text-[var(--dark-orange)] font-medium text-lg pb-3'>Category</p>
                         <select

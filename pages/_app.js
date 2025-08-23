@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }) {
       // router.push("/");
       // }
     } else {
-      if (router.route !== "/login" && router.route !== "/signup") {
+      if (router.route !== "/login" && router.route !== "/signup" && router.route !== "/privacy-policy" && router.route !== "/terms-conditions" && router.route !== "/about-us" && router.route !== "/contact-us") {
         router.push("/login");
       }
     }
