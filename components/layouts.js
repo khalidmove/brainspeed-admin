@@ -14,7 +14,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
 import * as rdd from "react-device-detect";
-import { MdDashboard, MdOutlineSubscriptions } from "react-icons/md";
+import { MdDashboard, MdOutlineQuiz, MdOutlineSubscriptions } from "react-icons/md";
 import { FaUser } from "react-icons/fa6";
 import { BiBookContent, BiSolidCategory } from "react-icons/bi";
 import { FaQuestion } from "react-icons/fa6";
@@ -23,6 +23,8 @@ import { AiOutlineBell } from 'react-icons/ai'
 import { MdOutlineContentPaste } from "react-icons/md";
 import { IoSettings } from "react-icons/io5";
 import { IoMdTime } from "react-icons/io";
+import { BsFillQuestionCircleFill } from "react-icons/bs";
+import { GiPodiumWinner } from "react-icons/gi";
 
 const menuItems = [
   {
@@ -35,7 +37,7 @@ const menuItems = [
   {
     href: "/quizz-list",
     title: "Question Management",
-    icon: <GrTest />,
+    icon: <BsFillQuestionCircleFill />,
     activeIcon: "/home.png",
     access: ["USER", "ORG", "ADMIN"],
   },
@@ -49,7 +51,14 @@ const menuItems = [
   {
     href: "/test-management",
     title: "Quiz Management",
-    icon: <GrTest />,
+    icon: <MdOutlineQuiz />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
+  {
+    href: "/leaderboard",
+    title: "Leaderboard",
+    icon: <GiPodiumWinner />,
     activeIcon: "/home.png",
     access: ["USER", "ORG", "ADMIN"],
   },
@@ -316,10 +325,10 @@ const Layout = ({ children, loader, toaster }) => {
               ></Image>
             </div> */}
             <div className="p-4">
-              <div className="w-52 h-52 bg-white rounded-full flex justify-center items-center border-b-2 border-white">
+              <div className="w-52 h-52 rounded-full flex justify-center items-center ">
                 {/* border-4  */}
-                {/* <img src="/logo-1.png" className="rounded-md overflow-hidden w-40 h-40" /> */}
-                <p className="text-[var(--custom-blue)] font-bold text-2xl">BRAINSPEED</p>
+                <img src="/Logo4.png" className="rounded-md overflow-hidden w-40 h-40" />
+                {/* <p className="text-[var(--custom-blue)] font-bold text-2xl">BRAINSPEED</p> */}
 
               </div>
             </div>

@@ -15,6 +15,7 @@ function Settings(props) {
     const [carouselImg, setCarouselImg] = useState([]);
     const [singleImg, setSingleImg] = useState('');
     const [settingsId, setSettingsId] = useState('');
+    const [QuizTime, setQuizTime] = useState("");
     const [user, setUser] = useContext(userContext);
 
     useEffect(() => {
@@ -90,6 +91,7 @@ function Settings(props) {
                     if (res?.setting.length > 0) {
                         setSettingsId(res?.setting[0]._id)
                         setCarouselImg(res?.setting[0].carousel)
+                        setQuizTime(res?.setting[0].quiztime);
                     }
                 } else {
                     props.loader(false);
@@ -109,15 +111,45 @@ function Settings(props) {
         const d = carouselImg.filter((f) => f !== item);
         setCarouselImg(d)
     }
+const createQuizTime = (e) => {
+    e.preventDefault();
 
+    props.loader(true);
+    let data = {
+      id: settingsId,
+      quiztime: Number(QuizTime),
+    };
+    console.log(data);
+    props.loader(true);
+    Api("post", `setting/updatesetting`, data, router).then(
+      (res) => {
+        props.loader(false);
+        console.log("res================>", res.status);
+
+        if (res?.status === true) {
+          console.log(res?.data?.message);
+          props.toaster({ type: "success", message: "Quiz time updated succesfully." });
+        } else {
+          console.log(res?.data?.message);
+          props.toaster({ type: "error", message: res?.data?.message });
+        }
+      },
+      (err) => {
+        props.loader(false);
+        console.log(err);
+        props.toaster({ type: "error", message: err?.data?.message });
+        props.toaster({ type: "error", message: err?.message });
+      }
+    );
+  };
     return (
         <>
             <div className="bg-white min-h-full md:pt-10 pt-11 md:pb-10 pb-5 px-5">
-                <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
+                <div className='border-2 rounded-[15px] border-[var(--dark-blue)] p-5'>
                     <div className='md:flex justify-between'>
                         <div>
                             <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
-                            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
+                            <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
                         </div>
                     </div>
                 </div>
@@ -127,8 +159,8 @@ function Settings(props) {
 
                         <div className="">
                             <div className="flex items-center space-x-3 mb-6">
-                                <div className="p-2 bg-[var(--custom-blue)] rounded-lg">
-                                    <FiImage className="h-5 w-5 text-white" />
+                                <div className="p-2 bg-[#00000010] rounded-lg">
+                                    <FiImage className="h-5 w-5 text-black" />
                                 </div>
                                 <h2 className="text-gray-800 text-xl font-bold">Carousel Images</h2>
                             </div>
@@ -231,7 +263,41 @@ function Settings(props) {
                         </div>
                     </form>
                 </section>
+       <section className="px-5 pt-5 pb-5 bg-white rounded-[12px] overflow-scroll md:mt-5 mt-5 no-scrollbar">
+          {/* md:mt-9 */}
+          <form className="w-full flex flex-row gap-5" onSubmit={createQuizTime}>
+            <div className="w-full relative ">
+              <p className="text-custom-gray text-lg font-semibold my-2">
+                Quiz Time (in secends)
+              </p>
+              <div className="border border-gray-400 rounded-md p-2 w-full bg-custom-light flex justify-start items-center">
+                <input
+                  className="outline-none bg-custom-light md:w-[90%] w-[85%] text-black"
+                  type="number"
+                  required
+                  max="60"
+                  placeholder={"Enter Quiz Time"}
+                  value={QuizTime}
+                  onChange={(text) => {
+                    const regex = /^[0-9]*\.?[0-9]*$/;
+                    if (regex.test(text.target.value)) {
+                      setQuizTime(text.target.value);
+                    }
+                  }}
+                />
+              </div>
+            </div>
 
+            <div className="flex justify-end items-end mt-5">
+              <button
+                type="submit"
+                className="text-white bg-[var(--custom-blue)] rounded-[10px] text-center  text-md py-2 w-36 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Update
+              </button>
+            </div>
+          </form>
+        </section>
 
             </div>
         </>
