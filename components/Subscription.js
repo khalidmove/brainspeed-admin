@@ -147,7 +147,7 @@ const changestatus = (id,stat) => {
                                 onChange={(e) => setNewFAQ({ ...newFAQ, plan: e.target.value })} />
                         </div>
 
-                        <p>Period (How many Month?)</p>
+                        <p>Period (How many Days?)</p>
                         <div className='w-full border-2 border-[var(--custom-blue)] rounded-sm'>
                             <input type="number" value={newFAQ.period} className='w-full rounded-sm border-none outline-none p-2' placeholder='Period'
                                 onChange={(e) => setNewFAQ({ ...newFAQ, period: e.target.value })} />
@@ -221,7 +221,7 @@ const changestatus = (id,stat) => {
                             <div className={`w-full p-2 md:p-3 ${open === idx + 1 ? 'h-auto block' : ' hidden h-0'} transition-all duration-500`}>
                                 <p>Plan: {item?.plan}</p>
                                 <p>Offer: {item?.offer}</p>
-                                <p>Period: {item?.period} Month(s)</p>
+                                <p>Period: {item?.period} Day(s)</p>
                             </div>
                         </div>
                     ))
