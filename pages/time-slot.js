@@ -19,7 +19,8 @@ function TimeSlot(props) {
     const [data, setData] = useState({
         startTime: dayjs(new Date()),
     });
-    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedSlot, setSelectedSlot] = useState("");
+    const [selectedSlotId, setSelectedSlotId] = useState("");
     const [loadTypeData, setloadTypeData] = useState([]);
     const [editid, seteditid] = useState("");
 
@@ -33,7 +34,12 @@ function TimeSlot(props) {
             (res) => {
                 props.loader(false);
                 console.log("res================> form data :: ", res);
-                setloadTypeData(res.data.timeSlots);
+                const timeSlots = res?.data?.timeSlots;
+                setloadTypeData(timeSlots);
+                if (Array.isArray(timeSlots)) {
+                    const selslot=timeSlots.find((it)=>it?.premium===true)
+                    setSelectedSlot(selslot?.startTime??null)
+                }
             },
             (err) => {
                 props.loader(false);
@@ -59,6 +65,22 @@ function TimeSlot(props) {
 
 
         createUpdateApi(method, url, datas)
+    };
+
+    const updatepremiumslot = () => {
+        let method = "post";
+        let url = `time/setPremiumSlot/${selectedSlotId}`;
+        Api(method, url, "", router).then(
+            (res) => {
+                console.log("Update slot", res);
+                getAllTimeSlots();
+            },
+            (err) => {
+                console.log(err);
+                props.loader(false);
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
     };
 
     const createUpdateApi = (method, url, datas) => {
@@ -124,9 +146,9 @@ function TimeSlot(props) {
 
             <section className="h-full w-full  md:mt-0 mt-5 md:pb-32 pb-28">
                 {/* overflow-scroll no-scrollbar */}
-                <form className="bg-white border md:my-10 border-[var(--custom-blue)] rounded-[10px] p-5" onSubmit={submit}>
+                <form className="bg-white border md:my-10 border-[var(--custom-blue)] rounded-[10px] p-5 flex-row flex items-center justify-between" onSubmit={submit}>
 
-                    <div className="md:flex flex-col justify-center items-center pt-10">
+                    <div className="md:flex flex-col justify-center items-center mr-3">
                         <div className="flex flex-col justify-start items-start md:w-auto w-full">
                             {/* <p className="text-custom-lightGrayInputName text-sm font-semibold pb-2">Add Start Time</p> */}
 
@@ -149,6 +171,38 @@ function TimeSlot(props) {
                         <button className="md:h-[40px] h-[40px] md:w-[250px] w-full bg-[var(--custom-blue)] rounded-[10px] md:text-lg text-base text-white" type="submit">{editid ? "Update Now" : "Add Now"} </button>
                     </div>
                 </form>
+
+                <div className="bg-white border md:my-10 border-[var(--custom-blue)] rounded-[10px] p-5 flex-row flex items-center justify-between" >
+
+                    <div>
+            <p className="text-[var(--dark-orange)] font-medium text-lg pb-3">
+              Primium Slot
+            </p>
+            <select
+              value={selectedSlot}
+              onChange={(text) => {
+                setSelectedSlot(text.target.value)
+                const selected = loadTypeData.find(
+      item => item.startTime === text.target.value
+    );
+    console.log("selected",selected)
+    setSelectedSlotId(selected?._id);
+              }}
+              className="outline-none p-2.5 w-full  border border-[var(--custom-blue)] rounded-[7px] bg-white"
+            >
+              {/* <option value="">Select category</option> */}
+              {loadTypeData.map((item, i) => (
+                <option key={i} value={item?.startTime}>
+                  {item?.startTime}
+                </option>
+              ))}
+            </select>
+          </div>
+
+                    <div className="flex justify-center items-center pt-5 pb-3">
+                        <button className="md:h-[40px] h-[40px] md:w-[250px] w-full bg-[var(--custom-blue)] rounded-[10px] md:text-lg text-base text-white" onClick={()=>updatepremiumslot()}>Update</button>
+                    </div>
+                </div>
 
                 {/* Form code end here */}
 

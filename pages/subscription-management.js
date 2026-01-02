@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import isAuth from '@/components/isAuth';
 import moment from 'moment';
 import { userContext } from './_app';
@@ -12,20 +12,24 @@ import { useRouter } from 'next/router'
 function SubscriptionManagement(props) {
     const router = useRouter();
     const [user, setUser] = useContext(userContext);
+    const [subscriptions, setSubscriptions] = useState([]);
     const [activeSubscriptionPlan, setActiveSubscriptionPlan] = useState(false);
+    useEffect(() => {
+        getSubscriptions();
+    }, [])
 
-    const submit = (is_on) => {
-        props.loader(true)
-        let url = `updateSubscription`
-
-        Api("post", url, { is_on }, router).then(
+const getSubscriptions = () => {
+        props.loader(true);
+        Api("get", "subscription/getSubscription", '', router).then(
             (res) => {
                 console.log("res================>", res.data.incident);
                 props.loader(false);
 
                 if (res?.status) {
-                    setActiveSubscriptionPlan(is_on)
-                    props.toaster({ type: "success", message: res?.data?.message });
+                    setSubscriptions(res.data)
+                    //  setTerms({ termsAndConditions: res?.data[0]?.termsAndConditions, id: res?.data[0]?._id })
+                const anyActive = res.data.some(item => item.status === "Active");
+                setActiveSubscriptionPlan(anyActive);
                 } else {
                     console.log(res?.data?.message);
                     props.toaster({ type: "error", message: res?.data?.message });
@@ -38,7 +42,33 @@ function SubscriptionManagement(props) {
                 props.toaster({ type: "error", message: err?.message });
             }
         );
+    };
 
+    const submit = (is_on) => {
+        props.loader(true)
+        let url = `subscription/changeAllStatus`
+
+        Api("post", url, {status:is_on?"Active":"Inactive"}, router).then(
+            (res) => {
+                console.log("res================>", res.data.incident);
+                props.loader(false);
+
+                if (res?.status) {
+                    setActiveSubscriptionPlan(is_on)
+                    props.toaster({ type: "success", message: res?.data?.message });
+                    getSubscriptions()
+                } else {
+                    console.log(res?.data?.message);
+                    props.toaster({ type: "error", message: res?.data?.message });
+                }
+            },
+            (err) => {
+                props.loader(false);
+                console.log(err);
+                props.toaster({ type: "error", message: err?.data?.message });
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
     }
 
     return (
@@ -49,7 +79,7 @@ function SubscriptionManagement(props) {
                         <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
                         <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
                     </div>
-                    {/* <div className='md:mt-0 mt-5'>
+                    <div className='md:mt-0 mt-5'>
                         <FormGroup>
                             <FormControlLabel control={<Switch checked={activeSubscriptionPlan}
                                 onChange={(e) => {
@@ -58,11 +88,11 @@ function SubscriptionManagement(props) {
                                 }}
                             />} label="Active Subscription Plan" />
                         </FormGroup>
-                    </div> */}
+                    </div>
                 </div>
             </div>
 
-            <Subscription props={props} setActiveSubscriptionPlan={setActiveSubscriptionPlan} />
+            <Subscription props={props} subscriptions={subscriptions} refreshSubscriptions={getSubscriptions}/>
         </div>
     )
 }

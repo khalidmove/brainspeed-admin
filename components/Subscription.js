@@ -3,15 +3,14 @@ import { useRouter } from 'next/router'
 import { MdOutlineAdd } from 'react-icons/md'
 import { Api } from '@/services/service'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaToggleOff, FaToggleOn } from "react-icons/fa";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { BsChevronDown } from 'react-icons/bs'
 import Swal from "sweetalert2";
 
-function Subscription({ props, setActiveSubscriptionPlan }) {
+function Subscription({ props, subscriptions,refreshSubscriptions }) {
     const [open, setOpen] = useState(0)
     const [createFAQ, setCreatFAQ] = useState(false)
-    const [faq, setFaq] = useState([])
     const [newFAQ, setNewFAQ] = useState({
         "offer": "",
         "plan": "",
@@ -21,30 +20,6 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
     const [singleFaq, setSigleFaq] = useState({})
     const router = useRouter();
 
-    const getFAQ = () => {
-        props.loader(true);
-        Api("get", "subscription/getSubscription", '', router).then(
-            (res) => {
-                console.log("res================>", res.data.incident);
-                props.loader(false);
-
-                if (res?.status) {
-                    setFaq(res.data)
-                    setActiveSubscriptionPlan(res.data[0].is_on)
-                    //  setTerms({ termsAndConditions: res?.data[0]?.termsAndConditions, id: res?.data[0]?._id })
-                } else {
-                    console.log(res?.data?.message);
-                    props.toaster({ type: "error", message: res?.data?.message });
-                }
-            },
-            (err) => {
-                props.loader(false);
-                console.log(err);
-                props.toaster({ type: "error", message: err?.data?.message });
-                props.toaster({ type: "error", message: err?.message });
-            }
-        );
-    };
 
     const deleteFAQ = (item) => {
         Swal.fire({
@@ -65,7 +40,7 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
 
                         if (res?.status) {
                             props.toaster({ type: "success", message: res?.data?.message });
-                            getFAQ()
+                            refreshSubscriptions()
                             //  setTerms({ termsAndConditions: res?.data[0]?.termsAndConditions, id: res?.data[0]?._id })
                         } else {
                             console.log(res?.data?.message);
@@ -99,7 +74,7 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
 
                 if (res?.status) {
                     // setFaq([...faq, res.data.faq])
-                    getFAQ()
+                    refreshSubscriptions()
                     props.toaster({ type: "success", message: res?.data?.message });
                     setNewFAQ({
                         question: '',
@@ -122,9 +97,30 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
 
     }
 
-    useEffect(() => {
-        getFAQ();
-    }, [])
+const changestatus = (id,stat) => {
+        const body ={
+            status:stat
+        }
+        Api("patch", `subscription/changestatus/${id}`, body, router).then(
+            (res) => {
+                props.loader(false);
+
+                if (res?.status) {
+                   refreshSubscriptions()
+                } else {
+                    console.log(res?.data?.message);
+                    props.toaster({ type: "error", message: res?.data?.message });
+                }
+            },
+            (err) => {
+                props.loader(false);
+                console.log(err);
+                props.toaster({ type: "error", message: err?.data?.message });
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
+
+    }
 
     return (
         <div className='w-full mt-5'>
@@ -173,8 +169,8 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
             </div>
             <div className='w-full border-2 rounded-md border-[var(--custom-blue)] p-4 space-y-2 md:space-y-4'>
                 {
-                    faq &&
-                    faq?.map((item, idx) => (
+                    subscriptions &&
+                    subscriptions?.map((item, idx) => (
                         <div key={idx} className=' border-t-8 border-[var(--custom-blue)] rounded-md border-[2px] '>
                             <div className='w-full p-2 md:p-3 border-b-[2px] border-[var(--custom-blue)] flex md:items-center justify-between gap-2 cursor-pointer'
                                 onClick={() => {
@@ -188,6 +184,11 @@ function Subscription({ props, setActiveSubscriptionPlan }) {
 
                                 <p className='capitalize'>{item?.type}</p>
                                 <div className='flex gap-5'>
+                            <div className='w-7 cursor-pointer'>
+                                        {item?.status==='Active'?<FaToggleOn className='text-custom-blue font-bold text-2xl' onClick={() => { changestatus(item?._id,'Inactive') }} />:
+                                        <FaToggleOff className='text-custom-red font-bold text-2xl' onClick={() => { changestatus(item?._id,'Active') }} />}
+
+                                    </div>
                                     <div className='w-5 cursor-pointer'>
                                         {
                                             open === idx + 1 ?
