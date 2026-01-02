@@ -68,7 +68,7 @@ const Notifications = (props) => {
             return
         }
         if (users.length === 0) {
-            props.toaster({ type: "error", message: "Select Bookings" })
+            props.toaster({ type: "error", message: "Select User" })
             return
         }
         props.loader(true);
