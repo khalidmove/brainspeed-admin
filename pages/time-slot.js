@@ -176,7 +176,7 @@ function TimeSlot(props) {
 
                     <div>
             <p className="text-[var(--dark-orange)] font-medium text-lg pb-3">
-              Primium Slot
+              Premium Slot
             </p>
             <select
               value={selectedSlot}
