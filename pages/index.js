@@ -14,7 +14,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function Dashboard(props) {
     const router = useRouter();
     const [user, setUser] = useContext(userContext);
-    const [userData, setUserData] = useState({});
+    const [allData, setAllData] = useState({});
     const [opt, setOpt] = useState({});
 
 
@@ -24,30 +24,30 @@ function Dashboard(props) {
 
     const dashboard = () => {
         props.loader(true);
-        Api("get", "dashboard", "", router).then(
+        Api("get", "admindashboard/totalnumberdata", "", router).then(
             async (res) => {
                 props.loader(false);
                 if (res?.status) {
                     console.log(res);
-                    setUserData(res?.data)
-                    setOpt({
-                        labels: ['Subscriber', 'Unsubscriber'],
-                        datasets: [
-                            {
-                                label: "Users",
-                                data: [res.data.users.subscriber, res.data.users.unsubscriber],
-                                backgroundColor: [
-                                    '#020973',
-                                    '#2A61F0',
-                                ],
-                                borderColor: [
-                                    'black',
-                                    'black',
-                                ],
-                                borderWidth: 1,
-                            },
-                        ],
-                    })
+                    setAllData(res?.data)
+                    // setOpt({
+                    //     labels: ['Subscriber', 'Unsubscriber'],
+                    //     datasets: [
+                    //         {
+                    //             label: "Users",
+                    //             data: [res.data.users.subscriber, res.data.users.unsubscriber],
+                    //             backgroundColor: [
+                    //                 '#020973',
+                    //                 '#2A61F0',
+                    //             ],
+                    //             borderColor: [
+                    //                 'black',
+                    //                 'black',
+                    //             ],
+                    //             borderWidth: 1,
+                    //         },
+                    //     ],
+                    // })
                 } else {
                     props.toaster({ type: "success", message: res?.message });
                 }
@@ -66,9 +66,9 @@ function Dashboard(props) {
                 <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
                 <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
             </div>
-            <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-10 md:pt-10 pt-5'>
-                <div>
-                    <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-5'>
+            <div className=' w-full gap-10 md:pt-10 pt-5'>
+                {/* <div> */}
+                    <div className='grid md:grid-cols-4 grid-cols-2 w-full gap-5'>
 
                         <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex  justify-between items-center drop-shadow-xl'>
                             <div className='flex justify-start items-center'>
@@ -76,7 +76,7 @@ function Dashboard(props) {
                             </div>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xl font-normal text-white'>Total Users</p>
-                                <p className='text-base font-normal text-white'>{userData?.users?.allusers} users</p>
+                                <p className='text-base font-normal text-white'>{allData?.user} users</p>
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@ function Dashboard(props) {
                             </div>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xl font-normal text-white'>Subscribed</p>
-                                <p className='text-base font-normal text-white'>{userData?.users?.subscriber} users</p>
+                                <p className='text-base font-normal text-white'>{allData?.subscribed} users</p>
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@ function Dashboard(props) {
                             </div>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xl font-normal text-white'>Unsubscribed</p>
-                                <p className='text-base font-normal text-white'>{userData?.users?.unsubscriber} users</p>
+                                <p className='text-base font-normal text-white'>{allData?.unsubscribed} users</p>
                             </div>
                         </div>
 
@@ -107,19 +107,19 @@ function Dashboard(props) {
                             </div>
                             <div className='flex flex-col justify-end items-end'>
                                 <p className='text-xl font-normal text-white'>Total Quiz</p>
-                                <p className='text-base font-normal text-white'>{userData?.quiz?.allquizs}</p>
+                                <p className='text-base font-normal text-white'>{allData?.quizz}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="grid md:grid-cols-3 grid-cols-1 w-full gap-5 pt-5">
+                    {/* <div className="grid md:grid-cols-3 grid-cols-1 w-full gap-5 pt-5">
                         <div className="border border-[var(--custom-blue)] h-[61px] w-full rounded-md p-2 flex justify-between items-center">
                             <div className='flex justify-start items-center'>
                                 <img className='h-[34px] w-[34px]' src='/createIcon-1.png' />
                             </div>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xs font-normal text-[var(--custom-blue)]'>Today upload</p>
-                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{userData?.quiz?.today} Quiz</p>
+                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{allData?.quiz?.today} Quiz</p>
                             </div>
                         </div>
                         <div className="border border-[var(--custom-blue)] h-[61px] w-full rounded-md p-2 flex justify-between items-center">
@@ -128,7 +128,7 @@ function Dashboard(props) {
                             </div>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xs font-normal text-[var(--custom-blue)]'>Last week</p>
-                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{userData?.quiz?.week} Quiz</p>
+                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{allData?.quiz?.week} Quiz</p>
                             </div>
                         </div>
                         <div className="border border-[var(--custom-blue)] h-[61px] w-full rounded-md p-2 flex justify-between items-center">
@@ -137,15 +137,15 @@ function Dashboard(props) {
                             </div>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xs font-normal text-[var(--custom-blue)]'>Last month</p>
-                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{userData?.quiz?.month} Quiz</p>
+                                <p className='text-[10px] font-normal text-[var(--custom-blue)]'>{allData?.quiz?.month} Quiz</p>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* <div className="pt-5">
                         <Table columns={columns} data={user} />
                     </div> */}
-                </div>
+                {/* </div> */}
 
                 <div className='flex justify-center items-center'>
                     {/* <img src="/images.png" /> */}

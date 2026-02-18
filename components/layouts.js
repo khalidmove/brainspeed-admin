@@ -25,6 +25,7 @@ import { IoSettings } from "react-icons/io5";
 import { IoMdTime } from "react-icons/io";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { GiPodiumWinner } from "react-icons/gi";
+import { CiMoneyBill } from "react-icons/ci";
 
 const menuItems = [
   {
@@ -59,6 +60,13 @@ const menuItems = [
     href: "/leaderboard",
     title: "Leaderboard",
     icon: <GiPodiumWinner />,
+    activeIcon: "/home.png",
+    access: ["USER", "ORG", "ADMIN"],
+  },
+  {
+    href: "/withdrawalrequest",
+    title: "Withdrawal Request",
+    icon: <CiMoneyBill />,
     activeIcon: "/home.png",
     access: ["USER", "ORG", "ADMIN"],
   },
