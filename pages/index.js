@@ -3,7 +3,7 @@ import Table from "@/components/table";
 import isAuth from '@/components/isAuth';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { Api } from '@/services/service';
+import { Api, ApiForExcelReports } from '@/services/service';
 import { useRouter } from "next/router";
 import moment from 'moment'
 import { useContext } from 'react';
@@ -60,6 +60,22 @@ function Dashboard(props) {
         );
     };
 
+    const handleExportCustomers = async () => {
+    try {
+      props.loader(true);
+      props.toaster({ type: "info", message: "Preparing export... Please wait" });
+ 
+      await ApiForExcelReports('reports/exportUserReport');
+     
+      props.toaster({ type: "success", message: "Customer data exported successfully!" });
+    } catch (error) {
+      console.error('Export error:', error);
+      props.toaster({ type: "error", message: error?.message })
+    } finally {
+      props.loader(false);
+    }
+  };
+
     return (
         <div className="bg-white min-h-full py-10 px-5">
             <div className='border-2 rounded-[15px] border-[var(--custom-blue)] p-5'>
@@ -80,7 +96,7 @@ function Dashboard(props) {
                             </div>
                         </div>
 
-                        <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex justify-between items-center drop-shadow-xl'>
+                        <div className='h-24 w-full rounded-lg bg-[var(--custom-blue)] p-5 flex justify-between items-center drop-shadow-xl' onClick={handleExportCustomers}>
                             {/* border-2 border-[var(--custom-blue)] */}
                             <div className='flex justify-start items-center'>
                                 <img className='h-[44px] w-[44px]' src='/subscribed_img.png' />

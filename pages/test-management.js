@@ -1,11 +1,11 @@
 import React, { useMemo, useState, useEffect, useContext } from 'react'
 import Table, { indexID } from "@/components/table";
-import { Api } from '@/services/service';
+import { Api, ApiForExcelReports } from '@/services/service';
 import { useRouter } from "next/router";
 import moment from 'moment';
 import isAuth from '@/components/isAuth';
 import { MdOutlineDelete } from 'react-icons/md'
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit,FaFileExcel } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { userContext } from './_app';
 
@@ -127,6 +127,17 @@ function TestManagement(props) {
                 ),
             },
 
+             {
+                Header: "User Data",
+                Cell: ({ value, row }) => (
+                    < div className='flex gap-1'>
+                        <button
+                            onClick={() => { handleExportQuizCustomers(row?.original?._id); }}
+                            className='h-10 w-10 bg-[#0f7a3f] flex justify-center items-center rounded font-nunito'><FaFileExcel className='h-5 w-5 text-white' /></button>
+                    </div >
+                ),
+            },
+
             {
                 Header: "Action",
                 Cell: ({ value, row }) => (
@@ -137,14 +148,47 @@ function TestManagement(props) {
                         <button
                             onClick={() => { Alert(row?.original?._id); }}
                             className='h-10 w-10 bg-[var(--custom-blue)] flex justify-center items-center rounded font-nunito'><MdOutlineDelete className='h-5 w-5 text-white' /></button>
+                        <button
+                            onClick={() => { handleExportCustomers(row?.original?._id); }}
+                            className='h-10 w-10 bg-[#0f7a3f] flex justify-center items-center rounded font-nunito'><FaFileExcel className='h-5 w-5 text-white' /></button>
                     </div >
                 ),
             },
+           
         ],
         []
     );
 
-
+const handleExportCustomers = async (id) => {
+    try {
+      props.loader(true);
+      props.toaster({ type: "info", message: "Preparing export... Please wait" });
+ 
+      await ApiForExcelReports(`reports/exportQuizData/${id}`);
+     
+      props.toaster({ type: "success", message: "Customer data exported successfully!" });
+    } catch (error) {
+      console.error('Export error:', error);
+      props.toaster({ type: "error", message: error?.message })
+    } finally {
+      props.loader(false);
+    }
+  };
+const handleExportQuizCustomers = async (id) => {
+    try {
+      props.loader(true);
+      props.toaster({ type: "info", message: "Preparing export... Please wait" });
+ 
+      await ApiForExcelReports(`reports/exportQuizUserReport/${id}`);
+     
+      props.toaster({ type: "success", message: "Customer data exported successfully!" });
+    } catch (error) {
+      console.error('Export error:', error);
+      props.toaster({ type: "error", message: error?.message })
+    } finally {
+      props.loader(false);
+    }
+  };
 
 
     return (
