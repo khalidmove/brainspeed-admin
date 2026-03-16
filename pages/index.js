@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import moment from 'moment'
 import { useContext } from 'react';
 import { userContext } from './_app';
+import { FaFileExcel } from 'react-icons/fa';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -101,9 +102,12 @@ function Dashboard(props) {
                             <div className='flex justify-start items-center'>
                                 <img className='h-[44px] w-[44px]' src='/subscribed_img.png' />
                             </div>
+                            <div className='flex flex-row items-center gap-3'>
                             <div className='flex flex-col justify-center items-center'>
                                 <p className='text-xl font-normal text-white'>Subscribed</p>
                                 <p className='text-base font-normal text-white'>{allData?.subscribed} users</p>
+                            </div>
+                            <FaFileExcel className='h-6 w-6 text-white' />
                             </div>
                         </div>
 
