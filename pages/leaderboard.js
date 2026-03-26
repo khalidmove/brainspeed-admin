@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useEffect, useContext } from 'react'
-import { Api } from '@/services/service';
+import { Api, ApiForExcelReports } from '@/services/service';
 import { useRouter } from "next/router";
 import moment from 'moment';
 import isAuth from '@/components/isAuth';
 import { MdOutlineDelete } from 'react-icons/md'
-import { FaRegEdit } from "react-icons/fa";
+import { FaFileExcel, FaRegEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { userContext } from './_app';
 import Table2,{ indexID } from '@/components/table2';
@@ -175,7 +175,21 @@ function formatTime(ms) {
     );
 
 
-
+const handleExportQuestion = async (id) => {
+    try {
+      props.loader(true);
+      props.toaster({ type: "info", message: "Preparing export... Please wait" });
+ 
+      await ApiForExcelReports(`reports/exportLeaderboard`);
+     
+      props.toaster({ type: "success", message: "Question data exported successfully!" });
+    } catch (error) {
+      console.error('Export error:', error);
+      props.toaster({ type: "error", message: error?.message })
+    } finally {
+      props.loader(false);
+    }
+  };
 
     return (
         <div className="bg-white min-h-full py-10 px-5">
@@ -184,6 +198,10 @@ function formatTime(ms) {
                     <div>
                         <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
                         <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--dark-orange)]'>{user?.name}</span></p>
+                    </div>
+                    <div className='bg-[var(--custom-blue)] h-[47px] w-[154px] rounded-[5px] text-white text-base font-normal flex justify-center items-center mt-5 gap-2' onClick={() => handleExportQuestion()}>
+                        <div >Download Excel</div>
+                    <FaFileExcel className='h-4 w-4 text-white' />
                     </div>
                     {/* <div>
                         <button className='bg-[var(--custom-blue)] h-[57px] w-[194px] rounded-[5px] text-white text-xl font-normal flex justify-center items-center mt-5' onClick={() => router.push("/create-test")}>Add Quizz</button>

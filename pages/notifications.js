@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import moment from 'moment';
 import { AiOutlineCheck } from 'react-icons/ai';
 import { userContext } from './_app';
-import { Api } from '@/services/service';
+import { Api, ApiForExcelReports } from '@/services/service';
 import Table from '@/components/table';
+import { FaFileExcel } from 'react-icons/fa';
 
 const Notifications = (props) => {
     const router = useRouter()
@@ -162,6 +163,22 @@ const Notifications = (props) => {
         }
     ], [SortedBookings, allSelected])
 
+    const handleExportQuestion = async (id) => {
+    try {
+      props.loader(true);
+      props.toaster({ type: "info", message: "Preparing export... Please wait" });
+ 
+      await ApiForExcelReports(`reports/exportNotifications`);
+     
+      props.toaster({ type: "success", message: "Question data exported successfully!" });
+    } catch (error) {
+      console.error('Export error:', error);
+      props.toaster({ type: "error", message: error?.message })
+    } finally {
+      props.loader(false);
+    }
+  };
+
     return (
         <>
             <div className="bg-white min-h-full md:pt-10 pt-11 md:pb-10 pb-5 px-5">
@@ -171,8 +188,14 @@ const Notifications = (props) => {
                             <p className='text-2xl font-bold text-black MerriweatherSans'>{`${moment(new Date()).format('DD-MMM-YYYY')} , ${moment(new Date()).format('dddd')}`}</p>
                             <p className='md:text-4xl text-3xl font-bold text-black MerriweatherSans pt-2'>Hello <span className='text-[var(--custom-blue)]'>{user?.name}</span></p>
                         </div>
+                        <div className='flex flex-row gap-3'>
+                                            <div className='bg-[var(--custom-blue)] h-[47px] w-[154px] rounded-[5px] text-white text-base font-normal flex justify-center items-center mt-5 gap-2' onClick={() => handleExportQuestion()}>
+                                                <div >Download Excel</div>
+                                            <FaFileExcel className='h-4 w-4 text-white' />
+                                            </div>
                         <div>
                         <button className='bg-[var(--custom-blue)] h-[57px] w-[194px] rounded-[5px] text-white text-xl font-normal flex justify-center items-center mt-5 cursor-pointer' onClick={() => router.push("/notification_history")}>Notification History</button>
+                    </div>
                     </div>
                     </div>
                 </div>
