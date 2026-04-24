@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect, use } from "react";
 import Table, { indexID } from "@/components/table";
-import { Api } from "@/services/service";
+import { Api, ApiForExcelReports } from "@/services/service";
 import { useRouter } from "next/router";
 import moment from "moment";
 import isAuth from "@/components/isAuth";
@@ -9,6 +9,7 @@ import { IoCloseCircleOutline } from "react-icons/io5";
 import Swal from "sweetalert2";
 import currencySign from "@/utils/currencySign";
 import HistoryList from "@/components/historyList";
+import { FaFileExcel } from "react-icons/fa";
 
 function Withdralreq(props) {
   const router = useRouter();
@@ -88,6 +89,21 @@ function Withdralreq(props) {
       }
     );
   };
+
+  const handleExportCustomers = async (id) => {
+      try {
+        props.loader(true);
+        props.toaster({ type: "info", message: "Preparing export... Please wait" });
+        await ApiForExcelReports(`reports/exportClaimReport`);
+       
+        props.toaster({ type: "success", message: "Customer data exported successfully!" });
+      } catch (error) {
+        console.error('Export error:', error);
+        props.toaster({ type: "error", message: error?.message })
+      } finally {
+        props.loader(false);
+      }
+    };
   
   const approvereq = (id, sellerid) => {
     Swal.fire({
@@ -493,6 +509,10 @@ function Withdralreq(props) {
         </Dialog>
       )}
       <section className="px-5 pt-1 md:pb-32 pb-28 bg-white h-full rounded-[12px] overflow-auto mt-3">
+        <div className='bg-[var(--custom-blue)] h-[47px] w-[154px] rounded-[5px] text-white text-base font-normal flex justify-center items-center mt-5 gap-2 absolute' onClick={() => handleExportCustomers()}>
+                              <div >Download Excel</div>
+                          <FaFileExcel className='h-4 w-4 text-white' />
+                          </div>
         <div className="">
           <Table
             columns={columns}

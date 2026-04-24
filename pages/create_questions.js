@@ -9,7 +9,6 @@ import copy from "copy-to-clipboard";
 
 function UploadProductFromFile(props) {
     const [file, setFile] = useState(null);
-    const [jenretteFile, setJenretteFile] = useState(null);
     const [jenretteFileData, setJenretteFileData] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [pagination, setPagination] = useState({
@@ -112,6 +111,7 @@ function UploadProductFromFile(props) {
                     })
                     .filter(Boolean); // Removes null entries
 
+                    console.log("parsedData",parsedData)
                 setUploadedData(parsedData);
                 setPagination((prev) => ({
                     ...prev,
@@ -129,11 +129,13 @@ function UploadProductFromFile(props) {
     const handleJenretteFileUploaded = (event, i) => {
         // const file = event.target.files[0];
         const selectedJenretteFile = event.target.files[0];
-        if (selectedJenretteFile) {
-            setJenretteFile(selectedJenretteFile);
-        }
         const data = new FormData()
-        data.append('file', jenretteFile)
+        if (!selectedJenretteFile) {
+            console.log('file not there')
+            return ;
+        }
+        data.append('file', selectedJenretteFile)
+        console.log('data',data)
         props.loader(true);
         ApiFormData("post", "auth/fileupload", data, router).then(
             (res) => {
